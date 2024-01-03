@@ -26,6 +26,6 @@ fn main() {
         .add_plugins(DebugPlugin)
         .add_plugins(SpaceshipPlugin)
         .add_plugins(CameraPlugin)
-     //   .add_plugins(AsteroidPlugin)
+        .add_plugins(AsteroidPlugin)
         .run();
 }

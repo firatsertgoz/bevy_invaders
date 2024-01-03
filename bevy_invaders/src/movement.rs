@@ -45,3 +45,5 @@ fn update_position(mut query: Query<(&Velocity, &mut Transform)>, time: Res<Time
         transform.translation += velocity.value * time.delta_seconds();
     }
 }
+
+
