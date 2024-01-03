@@ -1,8 +1,12 @@
+mod asset_loader;
+mod astreoids;
 mod camera;
 mod debug;
 mod movement;
 mod spaceship;
 
+use asset_loader::AssetLoaderPlugin;
+use astreoids::AsteroidPlugin;
 use bevy::prelude::*;
 use camera::CameraPlugin;
 use debug::DebugPlugin;
@@ -16,10 +20,12 @@ fn main() {
             color: Color::default(),
             brightness: 0.75,
         })
+        .add_plugins(AssetLoaderPlugin)
         .add_plugins(DefaultPlugins)
         .add_plugins(MovementPlugin)
         .add_plugins(DebugPlugin)
         .add_plugins(SpaceshipPlugin)
         .add_plugins(CameraPlugin)
+     //   .add_plugins(AsteroidPlugin)
         .run();
 }
