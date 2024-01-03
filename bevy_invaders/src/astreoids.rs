@@ -32,8 +32,7 @@ impl Plugin for AsteroidPlugin {
             timer: Timer::from_seconds(SPAWN_TIME_SECONDS, TimerMode::Repeating),
         })
         .add_systems(Update, spawn_asteroid)
-        .add_systems(Update, rotate_asteroid_rotation)
-        .add_systems(Update, handle_astreoid_collision);
+        .add_systems(Update, rotate_asteroid_rotation);
     }
 }
 
@@ -74,21 +73,6 @@ fn spawn_asteroid(
         },
         Asteroid,
     ));
-}
-
-fn handle_astreoid_collision(
-    mut commands: Commands,
-    query: Query<(Entity, &Collider), With<Asteroid>>,
-) {
-    for (entity, collider) in query.iter() {
-        for &collider_entity in collider.colliding_entities.iter() {
-            if query.get(collider_entity).is_ok() {
-                //TODO: Add astreroid bounce logic.
-                continue;
-            }
-            commands.entity(entity).despawn_recursive();
-        }
-    }
 }
 
 fn rotate_asteroid_rotation(mut query: Query<&mut Transform, With<Asteroid>>, time: Res<Time>) {

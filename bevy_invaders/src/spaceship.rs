@@ -1,11 +1,10 @@
-use crate::{asset_loader::SceneAsssets, collision_detection::Collider};
+use crate::{asset_loader::SceneAsssets, collision_detection::Collider, schedule::InGameSet};
 use bevy::prelude::*;
 
 use crate::movement::{Acceleration, MovingObjectBundle, Velocity};
 
 const RADIUS: f32 = 1.0;
 const STARTING_TRANSLATION: Vec3 = Vec3::new(0.0, 0.0, -20.0);
-const STARTING_VELOCITY: Vec3 = Vec3::new(0.0, 0.0, 1.0);
 const SPACESHIP_SPEED: f32 = 25.0;
 const SPACESHIP_ROTATION_SPEE: f32 = 2.5;
 const SHAPESHIP_ROLL_SPEED: f32 = 2.5;
@@ -20,8 +19,12 @@ pub struct SpaceshipMissile;
 impl Plugin for SpaceshipPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(PostStartup, spawn_spaceship);
-        app.add_systems(Update, spaceship_movement_controls);
-        app.add_systems(Update, spaceship_weapon_controls);
+        app.add_systems(
+            Update,
+            (spaceship_movement_controls, spaceship_weapon_controls)
+                .chain()
+                .in_set(InGameSet::UserInput),
+        );
     }
 }
 
@@ -46,7 +49,9 @@ fn spaceship_movement_controls(
     keyboard_input: Res<Input<KeyCode>>,
     time: Res<Time>,
 ) {
-    let (mut transform, mut velocity) = query.single_mut();
+    let Ok((mut transform, mut velocity)) = query.get_single_mut() else {
+        return;
+    };
     let mut rotation = 0.0;
     let mut roll = 0.0;
     let mut movement = 0.0;
