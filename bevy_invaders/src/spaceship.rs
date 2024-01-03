@@ -1,8 +1,9 @@
-use crate::asset_loader::SceneAsssets;
+use crate::{asset_loader::SceneAsssets, collision_detection::Collider};
 use bevy::prelude::*;
 
 use crate::movement::{Acceleration, MovingObjectBundle, Velocity};
 
+const RADIUS: f32 = 1.0;
 const STARTING_TRANSLATION: Vec3 = Vec3::new(0.0, 0.0, -20.0);
 const STARTING_VELOCITY: Vec3 = Vec3::new(0.0, 0.0, 1.0);
 const SPACESHIP_SPEED: f32 = 25.0;
@@ -33,6 +34,7 @@ fn spawn_spaceship(mut commands: Commands, scene_assets: Res<SceneAsssets>) {
                 transform: Transform::from_translation(STARTING_TRANSLATION),
                 ..default()
             },
+            collider: Collider::new(RADIUS),
             acceleration: Acceleration::new(Vec3::ZERO),
         },
         Spaceship,
@@ -90,6 +92,7 @@ fn spaceship_weapon_controls(
                     ),
                     ..default()
                 },
+                collider: Collider::new(RADIUS),
                 acceleration: Acceleration::new(Vec3::ZERO),
             },
             SpaceshipMissile,

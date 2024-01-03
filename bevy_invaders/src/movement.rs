@@ -1,4 +1,6 @@
 use bevy::prelude::*;
+
+use crate::collision_detection::Collider;
 pub struct MovementPlugin;
 
 #[derive(Bundle)]
@@ -6,6 +8,7 @@ pub struct MovingObjectBundle {
     pub(crate) velocity: Velocity,
     pub acceleration: Acceleration,
     pub model: SceneBundle,
+    pub collider: Collider,
 }
 
 #[derive(Component, Debug)]
@@ -45,5 +48,3 @@ fn update_position(mut query: Query<(&Velocity, &mut Transform)>, time: Res<Time
         transform.translation += velocity.value * time.delta_seconds();
     }
 }
-
-
