@@ -1,4 +1,4 @@
-use bevy::{prelude::*, ui::update};
+use bevy::prelude::*;
 
 use crate::{collision_detection::Collider, schedule::InGameSet};
 pub struct MovementPlugin;

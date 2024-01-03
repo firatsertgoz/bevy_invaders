@@ -85,7 +85,9 @@ fn spaceship_weapon_controls(
     keyboard_input: Res<Input<KeyCode>>,
     scene_assets: Res<SceneAsssets>,
 ) {
-    let transform = query.single();
+    let Ok(transform) = query.get_single() else {
+        return;
+    };
     if keyboard_input.pressed(KeyCode::Space) {
         commands.spawn((
             MovingObjectBundle {
